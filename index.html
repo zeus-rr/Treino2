@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>TREINO MASTER RAFAEL - PRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: { extend: { colors: { 'primary': '#6366f1', 'cardio': '#f59e0b', 'bg-dark': '#0b0f1a' } } }
+        }
+    </script>
+    <style>
+        .muscle { fill: #2d3748; stroke: #0f172a; stroke-width: 0.8; transition: all 0.4s ease; }
+        .active-peito { fill: #f472b6 !important; filter: drop-shadow(0 0 8px #f472b6); }
+        .active-ombros { fill: #fbbf24 !important; filter: drop-shadow(0 0 8px #fbbf24); }
+        .active-braços { fill: #34d399 !important; filter: drop-shadow(0 0 8px #34d399); }
+        .active-pernas { fill: #a78bfa !important; filter: drop-shadow(0 0 8px #a78bfa); }
+        .active-costas { fill: #d97706 !important; filter: drop-shadow(0 0 8px #d97706); }
+        .active-cardio { fill: #f59e0b !important; filter: drop-shadow(0 0 10px #f59e0b); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-100 dark:bg-[#0b0f1a] text-slate-800 dark:text-slate-100 font-sans antialiased">
+
+    <header class="p-4 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black uppercase tracking-tighter italic">TREINO<span class="text-primary">Master</span>RAFAEL</h1>
+            <div id="timer" class="font-mono text-primary font-bold bg-primary/10 px-4 py-1 rounded-full text-sm">00:00</div>
+        </div>
+    </header>
+
+    <main class="max-w-[1600px] mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <aside class="lg:col-span-4 space-y-6">
+            <section class="bg-white dark:bg-slate-900 rounded-[3rem] p-8 shadow-2xl border border-slate-200 dark:border-slate-800 sticky top-24">
+                <div class="flex justify-around gap-4 mb-6">
+                    <svg viewBox="0 0 200 480" class="w-1/2 h-auto">
+                        <path id="ms-peito" class="muscle" d="M70,85 Q100,75 130,85 L135,115 Q100,125 65,115 Z" />
+                        <circle id="ms-ombro-l" cx="58" cy="95" r="9" class="muscle" />
+                        <circle id="ms-ombro-r" cx="142" cy="95" r="9" class="muscle" />
+                        <rect id="ms-biceps-l" class="muscle" x="48" y="125" width="12" height="40" rx="5" />
+                        <rect id="ms-biceps-r" class="muscle" x="140" y="125" width="12" height="40" rx="5" />
+                        <path id="ms-abs" class="muscle" d="M85,130 H115 V200 H85 Z" />
+                        <path id="ms-quads-l" class="muscle" d="M72,210 L65,330 L95,330 L100,210 Z" />
+                        <path id="ms-quads-r" class="muscle" d="M128,210 L135,330 L105,330 L100,210 Z" />
+                    </svg>
+                    <svg viewBox="0 0 200 480" class="w-1/2 h-auto border-l border-slate-800/20 pl-4">
+                        <path id="ms-costas" class="muscle" d="M65,95 Q100,85 135,95 L140,180 Q100,195 60,180 Z" />
+                        <path id="ms-trapezio" class="muscle" d="M80,60 Q100,50 120,60 L140,90 Q100,80 60,90 Z" />
+                        <path id="ms-gluteos" class="muscle" d="M70,200 Q100,190 130,200 L135,250 Q100,265 65,250 Z" />
+                        <rect id="ms-triceps-l" class="muscle" x="48" y="125" width="10" height="45" rx="5" />
+                        <rect id="ms-triceps-r" class="muscle" x="142" y="125" width="10" height="45" rx="5" />
+                    </svg>
+                </div>
+                
+                <div class="space-y-4">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Divisão ABCDE</p>
+                    <div class="grid grid-cols-5 gap-2">
+                        <button onclick="selectPreset('ABCDE_A')" class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white py-3 rounded-xl text-xs font-black transition-all">A</button>
+                        <button onclick="selectPreset('ABCDE_B')" class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white py-3 rounded-xl text-xs font-black transition-all">B</button>
+                        <button onclick="selectPreset('ABCDE_C')" class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white py-3 rounded-xl text-xs font-black transition-all">C</button>
+                        <button onclick="selectPreset('ABCDE_D')" class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white py-3 rounded-xl text-xs font-black transition-all">D</button>
+                        <button onclick="selectPreset('ABCDE_E')" class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white py-3 rounded-xl text-xs font-black transition-all">E</button>
+                    </div>
+                    <button onclick="clearAll()" class="w-full bg-red-500/10 text-red-500 py-2 rounded-xl text-[10px] font-bold uppercase hover:bg-red-500 hover:text-white transition-all">Limpar Tudo</button>
+                </div>
+            </section>
+        </aside>
+
+        <section class="lg:col-span-8 space-y-6">
+            <div class="bg-white dark:bg-slate-900 p-8 rounded-[3rem] shadow-xl border border-slate-200 dark:border-slate-800">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                    <h2 class="text-3xl font-black italic uppercase">Master <span class="text-primary">Library</span></h2>
+                    <input type="text" id="exerciseSearch" placeholder="🔍 Buscar entre +200 exercícios..." class="bg-slate-100 dark:bg-slate-800 border-none rounded-2xl px-6 py-3 text-sm focus:ring-2 focus:ring-primary outline-none w-full md:w-80">
+                </div>
+                
+                <div id="exercise-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[500px] overflow-y-auto pr-4 custom-scrollbar"></div>
+
+                <button id="generateBtn" class="w-full mt-10 bg-primary hover:bg-indigo-600 text-white py-6 rounded-[2rem] font-black text-xl shadow-2xl transition-all">
+                    GERAR PROGRAMA DE TREINO
+                </button>
+            </div>
+
+            <div id="workoutDisplay" class="space-y-6 pb-20"></div>
+        </section>
+    </main>
+
+    <script>
+        const library = {
+            "Peitorais": {
+                ids: ["ms-peito", "ms-ombro-l", "ms-ombro-r"], class: "active-peito",
+                items: [
+                    {n: "Supino Reto (Barra)", e: "Base da força peitoral."},
+                    {n: "Supino Inclinado (Halter)", e: "Foco na parte superior."},
+                    {n: "Supino Declinado", e: "Foco na parte inferior."},
+                    {n: "Crucifixo Reto (Halteres)", e: "Alongamento máximo."},
+                    {n: "Crucifixo Inclinado", e: "Foco em fibras superiores."},
+                    {n: "Peck Deck (Voador)", e: "Isolamento e squeeze."},
+                    {n: "Cross Over Polia Alta", e: "Foco na linha inferior."},
+                    {n: "Cross Over Polia Baixa", e: "Foco na linha superior."},
+                    {n: "Flexão de Braços", e: "Peso corporal."},
+                    {n: "Dips (Paralelas)", e: "Peito e tríceps."}
+                ]
+            },
+            "Costas": {
+                ids: ["ms-costas", "ms-trapezio"], class: "active-costas",
+                items: [
+                    {n: "Puxada Aberta", e: "Amplitude lateral."},
+                    {n: "Puxada Triângulo", e: "Espessura central."},
+                    {n: "Remada Curvada (Barra)", e: "Densidade dorsal."},
+                    {n: "Remada Unilateral", e: "Equilíbrio muscular."},
+                    {n: "Barra Fixa", e: "Desafio total de dorsal."},
+                    {n: "Pulldown Corda", e: "Isolamento lateral."},
+                    {n: "Levantamento Terra", e: "Força bruta posterior."},
+                    {n: "Remada Cavalinho", e: "Foco em trapézio médio."},
+                    {n: "Face Pull", e: "Postura e posterior de ombro."},
+                    {n: "Rack Pull", e: "Trapézio superior e força."}
+                ]
+            },
+            "Pernas": {
+                ids: ["ms-quads-l", "ms-quads-r", "ms-gluteos"], class: "active-pernas",
+                items: [
+                    {n: "Agachamento Livre", e: "Rei das pernas."},
+                    {n: "Leg Press 45°", e: "Carga com segurança."},
+                    {n: "Cadeira Extensora", e: "Pico de quadríceps."},
+                    {n: "Stiff", e: "Isquiotibiais e lombar."},
+                    {n: "Mesa Flexora", e: "Posteriores isolados."},
+                    {n: "Afundo com Halteres", e: "Equilíbrio e glúteos."},
+                    {n: "Elevação Pélvica", e: "Hipertrofia de glúteos."},
+                    {n: "Cadeira Abdutora", e: "Glúteo médio."},
+                    {n: "Agachamento Hack", e: "Foco total em quads."},
+                    {n: "Gêmeos em Pé", e: "Panturrilhas potentes."}
+                ]
+            },
+            "Ombros & Trapézio": {
+                ids: ["ms-ombro-l", "ms-ombro-r", "ms-trapezio"], class: "active-ombros",
+                items: [
+                    {n: "Desenvolvimento Halteres", e: "Força total deltoides."},
+                    {n: "Elevação Lateral", e: "Crescimento lateral."},
+                    {n: "Elevação Frontal", e: "Deltoide anterior."},
+                    {n: "Desenvolvimento Militar", e: "Exercício base de força."},
+                    {n: "Encolhimento (Halteres)", e: "Trapézio superior."},
+                    {n: "Crucifixo Inverso", e: "Deltóide posterior."},
+                    {n: "Desenvolvimento Arnold", e: "Rotação e amplitude."},
+                    {n: "Remada Alta", e: "Trapézio e ombros."},
+                    {n: "Elevação Lateral Polia", e: "Tensão constante."},
+                    {n: "Y-Raise", e: "Estabilidade escapular."}
+                ]
+            },
+            "Braços": {
+                ids: ["ms-biceps-l", "ms-biceps-r", "ms-triceps-l", "ms-triceps-r"], class: "active-braços",
+                items: [
+                    {n: "Rosca Direta", e: "Massa total de bíceps."},
+                    {n: "Tríceps Pulley", e: "Isolamento de tríceps."},
+                    {n: "Rosca Martelo", e: "Braquial e antebraço."},
+                    {n: "Tríceps Corda", e: "Cabeça lateral tríceps."},
+                    {n: "Rosca Scott", e: "Pico do bíceps."},
+                    {n: "Tríceps Testa", e: "Cabeça longa tríceps."},
+                    {n: "Rosca Inclinada 45°", e: "Alongamento bíceps."},
+                    {n: "Mergulho Banco", e: "Foco tríceps peso corpo."},
+                    {n: "Rosca Concentrada", e: "Detalhe muscular."},
+                    {n: "Tríceps Coice", e: "Finalização e contração."}
+                ]
+            },
+            "Cárdio": {
+                ids: ["ms-abs"], class: "active-cardio",
+                items: [
+                    {n: "Esteira: Corrida Contínua", e: "30 min ritmo leve."},
+                    {n: "Bicicleta: Sprint", e: "HIIT: 30s max / 30s leve."},
+                    {n: "Remo Seco (Rowing)", e: "Corpo todo e pulmão."},
+                    {n: "Polichinelos", e: "Cárdio funcional."},
+                    {n: "Corda (Single Under)", e: "Queima calórica alta."},
+                    {n: "Burpees", e: "Explosão total."},
+                    {n: "Escada (Stairmaster)", e: "Cárdio e glúteo."},
+                    {n: "Mountain Climbers", e: "Coração e abdômen."},
+                    {n: "Esteira: HIIT Inclinado", e: "Simulação de subida."},
+                    {n: "Battle Ropes", e: "Braços e cárdio."}
+                ]
+            }
+        };
+
+        const presets = {
+            "ABCDE_A": ["Supino Reto (Barra)", "Supino Inclinado (Halter)", "Peck Deck (Voador)", "Crucifixo Reto (Halteres)", "Esteira: Corrida Contínua"],
+            "ABCDE_B": ["Puxada Aberta", "Remada Curvada (Barra)", "Remada Unilateral", "Pulldown Corda", "Remo Seco (Rowing)"],
+            "ABCDE_C": ["Agachamento Livre", "Leg Press 45°", "Cadeira Extensora", "Stiff", "Bicicleta: Sprint"],
+            "ABCDE_D": ["Desenvolvimento Halteres", "Elevação Lateral", "Encolhimento (Halteres)", "Crucifixo Inverso", "Polichinelos"],
+            "ABCDE_E": ["Rosca Direta", "Tríceps Pulley", "Rosca Martelo", "Tríceps Testa", "Corda (Single Under)"]
+        };
+
+        const grid = document.getElementById('exercise-grid');
+
+        Object.keys(library).forEach(cat => {
+            const card = document.createElement('div');
+            card.className = "category-card bg-slate-50 dark:bg-slate-800/40 p-5 rounded-[2rem] border border-slate-200 dark:border-slate-700 mb-4";
+            card.innerHTML = `<h4 class="text-[10px] font-black text-primary uppercase mb-4 tracking-widest">${cat}</h4>
+                <div class="grid grid-cols-1 gap-1">
+                    ${library[cat].items.map(ex => `
+                        <label class="flex items-start gap-3 p-2 hover:bg-white dark:hover:bg-slate-700 rounded-xl cursor-pointer transition-all">
+                            <input type="checkbox" data-cat="${cat}" data-exec="${ex.e}" value="${ex.n}" class="ex-check mt-1 w-4 h-4 rounded text-primary">
+                            <span class="text-xs font-bold text-slate-500">${ex.n}</span>
+                        </label>
+                    `).join('')}
+                </div>`;
+            grid.appendChild(card);
+        });
+
+        document.getElementById('exerciseSearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.ex-check').forEach(input => {
+                const label = input.closest('label');
+                label.style.display = input.value.toLowerCase().includes(term) ? 'flex' : 'none';
+            });
+        });
+
+        window.selectPreset = (key) => {
+            document.querySelectorAll('.ex-check').forEach(i => i.checked = false);
+            presets[key].forEach(name => {
+                const check = document.querySelector(`.ex-check[value="${name}"]`);
+                if(check) check.checked = true;
+            });
+            syncAnatomy();
+        };
+
+        function syncAnatomy() {
+            document.querySelectorAll('.muscle').forEach(m => m.className.baseVal = "muscle");
+            document.querySelectorAll('.ex-check:checked').forEach(input => {
+                const cat = input.getAttribute('data-cat');
+                library[cat].ids.forEach(id => document.getElementById(id).classList.add(library[cat].class));
+            });
+        }
+        document.querySelectorAll('.ex-check').forEach(i => i.addEventListener('change', syncAnatomy));
+
+        window.saveProgress = () => {
+            const data = {};
+            document.querySelectorAll('.workout-item').forEach(item => {
+                data[item.dataset.name] = { r: item.querySelector('.input-reps').value, w: item.querySelector('.input-weight').value };
+            });
+            localStorage.setItem('rafael_pro_workout', JSON.stringify(data));
+        };
+
+        window.exportToWA = () => {
+            let text = "🚀 *TREINO MASTER RAFAEL*\n\n";
+            document.querySelectorAll('.workout-item').forEach((item, i) => {
+                text += `*${i+1}. ${item.dataset.name}*\n   └ 📊 ${item.querySelector('.input-reps').value || "4x12"} | ⚖️ ${item.querySelector('.input-weight').value || "0"}kg\n\n`;
+            });
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+        };
+
+        window.clearAll = () => { if(confirm("Zerar treino?")) { localStorage.removeItem('rafael_pro_workout'); location.reload(); } };
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const selected = Array.from(document.querySelectorAll('.ex-check:checked')).map(i => ({n: i.value, e: i.getAttribute('data-exec')}));
+            const out = document.getElementById('workoutDisplay');
+            if(selected.length === 0) return alert("Selecione!");
+            const saved = JSON.parse(localStorage.getItem('rafael_pro_workout') || '{}');
+            out.innerHTML = `<div class="flex justify-between items-center mb-6"><h3 class="text-2xl font-black uppercase">Treino Ativo</h3><button onclick="exportToWA()" class="bg-green-600 text-white px-6 py-2 rounded-full font-bold text-xs hover:bg-green-700">WHATSAPP 📱</button></div>`;
+            selected.forEach((ex, i) => {
+                const prev = saved[ex.n] || {r: '', w: ''};
+                out.innerHTML += `<div class="workout-item bg-white dark:bg-slate-900 p-6 rounded-[2.5rem] shadow-xl border-l-8 border-primary flex flex-wrap justify-between items-center mb-4" data-name="${ex.n}">
+                    <div class="flex-1 min-w-[200px]">
+                        <h4 class="font-bold text-lg">${ex.n}</h4>
+                        <p class="text-[10px] text-slate-500 italic">${ex.e}</p>
+                    </div>
+                    <div class="flex gap-4 ml-auto">
+                        <input type="text" oninput="saveProgress()" value="${prev.r}" placeholder="4x12" class="input-reps w-16 bg-slate-100 dark:bg-slate-800 p-2 rounded-xl text-center font-bold text-xs outline-none">
+                        <input type="text" oninput="saveProgress()" value="${prev.w}" placeholder="Kg" class="input-weight w-16 bg-slate-100 dark:bg-slate-800 p-2 rounded-xl text-center font-bold text-xs outline-none">
+                        <button onclick="this.closest('.workout-item').classList.toggle('opacity-30')" class="w-10 h-10 bg-primary/10 text-primary rounded-xl">✓</button>
+                    </div>
+                </div>`;
+            });
+            out.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        let s = 0; setInterval(() => { s++; let m = Math.floor(s/60).toString().padStart(2,'0'); let sec = (s%60).toString().padStart(2,'0'); document.getElementById('timer').innerText = `${m}:${sec}`; }, 1000);
+    </script>
+</body>
+</html>
