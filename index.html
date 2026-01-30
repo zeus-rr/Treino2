@@ -4,10 +4,10 @@
     <link rel="icon" href="https://zeus-rr.github.io/treino/icon.png">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title id="pageTitle">ZEUS TREINO PRO</title>
+    <title id="pageTitle">SISTEMA DE TREINO PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // --- TRAVA DE SEGURANÇA ---
+        // --- TRAVA DE SEGURANÇA E REDIRECIONAMENTO ---
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const isStudent = urlParams.has('aluno');
@@ -19,7 +19,7 @@
                     <img src="https://zeus-rr.github.io/treino/icon.png" style="width:80px; margin-bottom:20px;">
                     <h1 style="color:#FF1493; font-weight:900; font-size:24px;">ACESSO RESTRITO</h1>
                     <p style="opacity:0.7; margin-top:10px;">Faça login no Painel Administrativo para continuar.</p>
-                    <a href="admin.html" style="margin-top:25px; background:#FF1493; color:white; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:bold; text-transform:uppercase; font-size:12px; shadow: 0 10px 20px rgba(255,20,147,0.3);">Ir para Login</a>
+                    <a href="admin.html" style="margin-top:25px; background:#FF1493; color:white; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:bold; text-transform:uppercase; font-size:12px;">Ir para Login</a>
                 </body>`;
                 window.stop(); 
             }
@@ -53,7 +53,7 @@
     <div id="progressContainer" class="progress-bar-container hidden"><div id="progressFill"></div></div>
 
     <a id="waFloat" href="#" target="_blank" class="btn-whatsapp-float no-print">
-        <img id="waPhoto" src="https://zeus-rr.github.io/treino/icon.png" class="w-8 h-8 rounded-full border border-white">
+        <img id="waPhoto" src="https://zeus-rr.github.io/treino/icon.png" class="w-8 h-8 rounded-full border border-white object-cover">
         <span id="waText">Falar com Professor</span>
     </a>
 
@@ -64,6 +64,7 @@
                 <h1 id="brandName" class="text-xl italic uppercase tracking-tighter pink-bold">SISTEMA ZEUS</h1>
             </div>
             <div class="flex gap-2">
+                <div id="studentDisplayHead" class="text-sm font-bold pink-bold hidden sm:flex items-center mr-4"></div>
                 <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border">🌓</button>
                 <button onclick="window.location.href='admin.html'" class="admin-ui p-2 px-3 rounded-xl bg-red-500/10 text-red-500 text-[10px] font-black border border-red-500/20">SAIR</button>
             </div>
@@ -73,10 +74,10 @@
     <main class="max-w-[1600px] mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
         <aside class="lg:col-span-4 space-y-4 admin-ui">
             <div class="bg-white dark:bg-slate-900 p-6 rounded-[2rem] shadow-xl border border-pink-hot/20">
-                <h3 class="text-[10px] font-black uppercase mb-4 text-pink-hot tracking-widest">Configurações Gerais</h3>
+                <h3 class="text-[10px] font-black uppercase mb-4 text-pink-hot tracking-widest">Configurações Ativas</h3>
                 <div class="space-y-3">
                     <input type="text" id="confName" oninput="updateConfigs()" placeholder="Nome da Marca" class="w-full bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-sm font-bold outline-none border-b-2 border-pink-hot">
-                    <input type="text" id="confPhone" oninput="updateConfigs()" placeholder="WhatsApp (55119...)" class="w-full bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-sm font-bold outline-none">
+                    <input type="text" id="confPhone" oninput="updateConfigs()" placeholder="WhatsApp (55...)" class="w-full bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-sm font-bold outline-none">
                     <input type="url" id="urlProf" oninput="handleURLImage(this, 'prof')" placeholder="Link Foto Professor" class="w-full bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-[10px] outline-none">
                     <div class="flex items-center justify-between p-2">
                         <label class="text-[10px] font-bold uppercase opacity-50">Cor do Tema</label>
@@ -87,7 +88,7 @@
 
             <div class="bg-white dark:bg-slate-900 p-6 rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800">
                 <label class="text-[10px] font-bold uppercase opacity-50 ml-2">Identificação do Aluno</label>
-                <input type="text" id="studentName" oninput="save()" placeholder="Nome do Aluno" class="w-full bg-slate-100 dark:bg-slate-800 p-3 rounded-xl mb-3 font-bold outline-none">
+                <input type="text" id="studentName" oninput="updateHeader()" placeholder="Nome do Aluno" class="w-full bg-slate-100 dark:bg-slate-800 p-3 rounded-xl mb-3 font-bold outline-none">
                 <select id="daySelector" class="w-full bg-slate-100 dark:bg-slate-800 p-3 rounded-xl font-bold text-sm outline-none">
                     <option value="segunda">Segunda-feira</option>
                     <option value="terca">Terça-feira</option>
@@ -125,7 +126,7 @@
 
             <div class="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800">
                 <h3 class="text-xs font-black uppercase mb-2 text-pink-hot tracking-widest">Observações Gerais</h3>
-                <textarea id="generalNotes" oninput="save()" class="w-full bg-slate-100 dark:bg-slate-800 p-4 rounded-xl text-sm outline-none min-h-[100px]" placeholder="Instruções de cardio, descanso, etc."></textarea>
+                <textarea id="generalNotes" oninput="save()" class="w-full bg-slate-100 dark:bg-slate-800 p-4 rounded-xl text-sm outline-none min-h-[100px]" placeholder="Dicas de cardio, descanso..."></textarea>
             </div>
         </section>
     </main>
@@ -134,17 +135,17 @@
         const exerciseLibrary = {
             "Peito (Variantes)": ["Supino Reto Barra", "Supino Reto Máquina", "Supino Reto Halteres", "Supino Inclinado Barra", "Supino Inclinado Máquina", "Supino Inclinado Halteres", "Supino Declinado", "Crucifixo Reto", "Crucifixo Inclinado", "Peck Deck (Voador)", "Crossover Cabo Alto", "Crossover Cabo Baixo", "Dips (Paralelas) Peito"],
             "Costas (Dorsal/Lombar)": ["Puxada Frente Aberta", "Puxada Triângulo", "Puxada Supinada", "Remada Curvada Barra", "Remada Unilateral (Serrote)", "Remada Baixa Polia", "Remada Cavalinho", "Pulldown Corda", "Barra Fixa Aberta", "Levantamento Terra Clássico", "Extensão Lombar"],
-            "Pernas (Quadríceps)": ["Agachamento Livre", "Agachamento Hack", "Leg Press 45º", "Leg Press Horizontal", "Cadeira Extensora", "Agachamento Búlgaro", "Afundo com Halteres", "Passada (Walking Lunges)", "Agachamento Sumô"],
-            "Pernas (Posterior/Glúteo)": ["Stiff Barra/Halter", "Mesa Flexora", "Cadeira Flexora", "Elevação Pélvica", "Cadeira Abdutora", "Cadeira Adutora", "Glúteo no Cabo (Coice)", "Levantamento Terra Sumô"],
-            "Ombros (Deltoides)": ["Desenvolvimento Militar", "Desenvolvimento Halteres", "Desenvolvimento Arnold", "Elevação Lateral Halteres", "Elevação Lateral Cabo", "Elevação Frontal", "Crucifixo Inverso Halter", "Encolhimento"],
-            "Braços (Bíceps)": ["Rosca Direta Barra W", "Rosca Alternada", "Rosca Martelo", "Rosca Scott", "Rosca Concentrada", "Rosca Inclinada 45º", "Rosca Cross Baixo"],
-            "Braços (Tríceps)": ["Tríceps Pulley V", "Tríceps Corda", "Tríceps Testa", "Tríceps Francês", "Mergulho no Banco", "Dips (Paralelas) Tríceps", "Tríceps Coice"],
-            "Panturrilha e Core": ["Gêmeos em Pé", "Gêmeos Sentado", "Abdominal Supra Solo", "Abdominal Infra", "Prancha Isométrica", "Abdominal na Polia", "Abdominal Roda"],
+            "Pernas (Quadríceps)": ["Agachamento Livre Barra", "Agachamento Hack", "Leg Press 45º", "Leg Press Horizontal", "Cadeira Extensora", "Agachamento Búlgaro", "Afundo com Halteres", "Passada (Walking Lunges)", "Agachamento Sumô"],
+            "Pernas (Posterior/Glúteo)": ["Stiff Barra/Halter", "Mesa Flexora", "Cadeira Flexora", "Elevação Pélvica Barra", "Cadeira Abdutora", "Cadeira Adutora", "Glúteo no Cabo (Coice)", "Levantamento Terra Sumô"],
+            "Ombros (Deltoides)": ["Desenvolvimento Militar", "Desenvolvimento Halteres", "Desenvolvimento Arnold", "Elevação Lateral Halteres", "Elevação Lateral Cabo", "Elevação Frontal", "Crucifixo Inverso Halter", "Encolhimento de Ombros"],
+            "Braços (Bíceps)": ["Rosca Direta Barra W", "Rosca Alternada", "Rosca Martelo", "Rosca Scott Barra", "Rosca Concentrada", "Rosca Inclinada 45º", "Rosca Cross Baixo"],
+            "Braços (Tríceps)": ["Tríceps Pulley V", "Tríceps Corda", "Tríceps Testa Barra W", "Tríceps Francês Halter", "Mergulho no Banco", "Dips (Paralelas) Tríceps", "Tríceps Coice Halter"],
+            "Panturrilha e Core": ["Gêmeos em Pé", "Gêmeos Sentado", "Abdominal Supra Solo", "Abdominal Infra Solo", "Prancha Isométrica", "Abdominal Roda"],
             "Cárdio": ["Corrida Esteira", "Caminhada Inclinada", "Bicicleta Ergométrica", "Elíptico", "Pular Corda", "Hit (Burpees/Polichinelo)"]
         };
 
         let workoutData = { 
-            student: "", generalNotes: "", photoProf: "https://zeus-rr.github.io/treino/icon.png", photoStudent: "",
+            student: "", generalNotes: "", photoProf: "https://zeus-rr.github.io/treino/icon.png",
             profName: "SISTEMA ZEUS", profPhone: "5500000000000", themeColor: "#FF1493",
             days: { segunda: [], terca: [], quarta: [], quinta: [], sexta: [], sabado: [] } 
         };
@@ -182,13 +183,13 @@
             render();
         }
 
-        // --- FUNÇÕES DE ARQUIVO (EXPORTAR/IMPORTAR) ---
+        // --- EXPORTAR E IMPORTAR ---
         function exportToHTML() {
             const dataCriacao = new Date().toLocaleDateString('pt-BR');
             const snapshot = btoa(unescape(encodeURIComponent(JSON.stringify(workoutData))));
-            const conteudoHTML = document.getElementById('weekDisplay').innerHTML;
+            const conteudoTreino = document.getElementById('weekDisplay').innerHTML;
 
-            const finalFile = `
+            const htmlFile = `
             <!DOCTYPE html>
             <html lang="pt-BR" class="dark">
             <head>
@@ -209,21 +210,21 @@
                     <header class="mb-8 border-b border-slate-800 pb-4 flex justify-between items-center">
                         <div>
                             <h1 class="text-3xl font-black pink-bold italic uppercase">ZEUS TREINO</h1>
-                            <p class="text-sm opacity-60 mt-2 uppercase font-bold">Aluno: ${workoutData.student || 'Não Informado'}</p>
-                            <p class="text-xs opacity-40 uppercase">Criado em: ${dataCriacao}</p>
+                            <p class="text-sm opacity-60 mt-2 uppercase">ALUNO: ${workoutData.student || '---'}</p>
+                            <p class="text-xs opacity-40 uppercase">DATA: ${dataCriacao}</p>
                         </div>
-                        <img src="${workoutData.photoProf}" class="w-16 h-16 rounded-full border-2 border-pink-hot">
+                        <img src="${workoutData.photoProf}" class="w-16 h-16 rounded-full border-2 border-pink-hot object-cover">
                     </header>
-                    <div>${conteudoHTML}</div>
+                    <div>${conteudoTreino}</div>
                     <div class="mt-8 p-6 bg-slate-900 rounded-2xl border border-slate-800">
-                        <h3 class="text-xs font-black uppercase mb-2 pink-bold">Observações do Professor</h3>
-                        <p class="text-sm opacity-80">${workoutData.generalNotes || 'Siga o plano de treino conforme as cargas indicadas.'}</p>
+                        <h3 class="text-xs font-black uppercase mb-2 pink-bold">Observações</h3>
+                        <p class="text-sm opacity-80">${workoutData.generalNotes || 'Sem observações.'}</p>
                     </div>
                 </div>
             </body>
             </html>`;
 
-            const blob = new Blob([finalFile], { type: 'text/html' });
+            const blob = new Blob([htmlFile], { type: 'text/html' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = `TREINO_${workoutData.student.toUpperCase() || 'ALUNO'}.html`;
@@ -241,39 +242,17 @@
                     try {
                         workoutData = JSON.parse(decodeURIComponent(escape(atob(match[1]))));
                         applyConfigs(); render(); save();
-                        alert("✅ Treino carregado com sucesso!");
-                    } catch(err) { alert("❌ Arquivo inválido."); }
-                } else { alert("❌ Formato de arquivo não reconhecido."); }
+                        alert("✅ Treino importado com sucesso!");
+                    } catch(err) { alert("❌ Erro ao ler dados."); }
+                } else { alert("❌ Arquivo incompatível."); }
             };
             reader.readAsText(file);
         }
 
         // --- LÓGICA DE TREINO ---
-        function renderLibrary() {
-            const container = document.getElementById('accordionLib');
-            container.innerHTML = "";
-            Object.keys(exerciseLibrary).forEach(cat => {
-                container.innerHTML += `
-                    <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden mb-2">
-                        <button onclick="this.nextElementSibling.classList.toggle('active')" class="w-full p-3 text-left bg-slate-50 dark:bg-slate-800 text-[10px] font-black uppercase flex justify-between items-center">
-                            ${cat} <span>▼</span>
-                        </button>
-                        <div class="category-content p-2 space-y-1 bg-white dark:bg-slate-900">
-                            ${exerciseLibrary[cat].map(ex => `
-                                <div onclick="addEx('${ex}', this)" class="p-2 text-[11px] hover:bg-pink-hot/10 cursor-pointer rounded-lg flex justify-between items-center group">
-                                    <span>${ex}</span>
-                                    <span class="text-pink-hot font-bold opacity-0 group-hover:opacity-100">+ ADD</span>
-                                </div>`).join('')}
-                        </div>
-                    </div>`;
-            });
-        }
-
         function addEx(name, el) {
             const day = document.getElementById('daySelector').value;
             workoutData.days[day].push({ n: name, r: "3x12", w: "---", obs: "", bi: false });
-            el.classList.add('bg-green-500/20');
-            setTimeout(() => el.classList.remove('bg-green-500/20'), 500);
             save(); render();
         }
 
@@ -306,11 +285,11 @@
                     }
 
                     html += `
-                    <div class="workout-item ${ex.bi ? 'is-conjugated' : ''} bg-white dark:bg-slate-900 p-4 rounded-[1.5rem] shadow-sm border border-slate-200 dark:border-slate-800">
+                    <div class="workout-item ${ex.bi ? 'is-conjugated' : ''} bg-white dark:bg-slate-900 p-4 rounded-[1.5rem] border border-slate-200 dark:border-slate-800">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
                                 <h4 class="font-bold text-xs uppercase">${ex.n}</h4>
-                                <input type="text" value="${ex.obs || ''}" oninput="workoutData.days['${dayKey}'][${idx}].obs=this.value;save()" class="w-full bg-transparent border-b border-dashed border-slate-700 text-[10px] outline-none mt-1" placeholder="Observação..." ${isStudent ? 'disabled' : ''}>
+                                <input type="text" value="${ex.obs || ''}" oninput="workoutData.days['${dayKey}'][${idx}].obs=this.value;save()" class="w-full bg-transparent border-b border-dashed border-slate-700 text-[10px] outline-none mt-1" placeholder="Obs..." ${isStudent ? 'disabled' : ''}>
                                 <div class="flex gap-2 mt-2 admin-ui">
                                     <button onclick="toggleBi('${dayKey}', ${idx})" class="text-[8px] font-bold px-2 py-1 rounded-full ${ex.bi ? 'bg-pink-hot text-white' : 'bg-slate-100 dark:bg-slate-800'}">CONJUGAR</button>
                                     <button onclick="removeEx('${dayKey}', ${idx})" class="text-[8px] font-bold px-2 py-1 bg-red-500/10 text-red-500 rounded-full">REMOVER</button>
@@ -350,10 +329,10 @@
             if(!document.body.classList.contains('is-student-mode')) {
                 workoutData.student = document.getElementById('studentName').value;
                 workoutData.generalNotes = document.getElementById('generalNotes').value;
-                localStorage.setItem('zeus_data_v2', JSON.stringify(workoutData));
+                localStorage.setItem('zeus_final_v1', JSON.stringify(workoutData));
             }
         }
-        function loadFromStorage() { const s = localStorage.getItem('zeus_data_v2'); if(s) workoutData = JSON.parse(s); }
+        function loadFromStorage() { const s = localStorage.getItem('zeus_final_v1'); if(s) workoutData = JSON.parse(s); }
         function applyConfigs() {
             document.documentElement.style.setProperty('--main-color', workoutData.themeColor);
             document.getElementById('brandName').innerText = workoutData.profName;
@@ -369,26 +348,38 @@
             workoutData.themeColor = document.getElementById('confColor').value;
             applyConfigs(); save();
         }
+        function updateHeader() { 
+            document.getElementById('studentDisplayHead').innerText = `ALUNO: ${document.getElementById('studentName').value.toUpperCase()}`;
+            save(); 
+        }
         function handleURLImage(input, type) { workoutData.photoProf = input.value; applyConfigs(); save(); }
         function toggleTheme() { document.documentElement.classList.toggle('dark'); }
         function clearAll() { if(confirm("Apagar tudo?")) { localStorage.clear(); location.reload(); } }
         function sendWhatsApp() {
-            const msg = encodeURIComponent(`Olá ${workoutData.student}, aqui está seu novo treino Zeus! 🏋️‍♂️`);
+            const msg = encodeURIComponent(`Olá ${workoutData.student}, segue seu novo treino Zeus! 🏋️‍♂️`);
             window.open(`https://api.whatsapp.com/send?phone=${workoutData.profPhone}&text=${msg}`, '_blank');
         }
 
-        // --- BUSCA NA BIBLIOTECA ---
+        function renderLibrary() {
+            const container = document.getElementById('accordionLib');
+            container.innerHTML = "";
+            Object.keys(exerciseLibrary).forEach(cat => {
+                container.innerHTML += `
+                    <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden mb-2">
+                        <button onclick="this.nextElementSibling.classList.toggle('active')" class="w-full p-3 text-left bg-slate-50 dark:bg-slate-800 text-[10px] font-black uppercase flex justify-between items-center">
+                            ${cat} <span>▼</span>
+                        </button>
+                        <div class="category-content p-2 space-y-1 bg-white dark:bg-slate-900">
+                            ${exerciseLibrary[cat].map(ex => `<div onclick="addEx('${ex}', this)" class="p-2 text-[11px] hover:bg-pink-hot/10 cursor-pointer rounded-lg">+ ${ex}</div>`).join('')}
+                        </div>
+                    </div>`;
+            });
+        }
+
         document.getElementById('searchEx').addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase();
-            document.querySelectorAll('#accordionLib .category-content').forEach(cat => {
-                let hasMatch = false;
-                cat.querySelectorAll('div').forEach(el => {
-                    const match = el.innerText.toLowerCase().includes(term);
-                    el.style.display = match ? 'flex' : 'none';
-                    if(match) hasMatch = true;
-                });
-                if(term.length > 1 && hasMatch) cat.classList.add('active');
-                else if(term.length <= 1) cat.classList.remove('active');
+            document.querySelectorAll('#accordionLib .category-content div').forEach(el => {
+                el.style.display = el.innerText.toLowerCase().includes(term) ? 'block' : 'none';
             });
         });
 
