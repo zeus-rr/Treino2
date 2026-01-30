@@ -12,30 +12,35 @@
         :root { --main-color: #FF1493; }
         .pink-bold { color: var(--main-color) !important; font-weight: 900; }
         .is-student-mode .admin-ui { display: none !important; }
-        .serie-dot { width: 32px; height: 32px; border: 2px solid var(--main-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
-        .serie-dot.checked { background: var(--main-color); color: white; }
-        #progressFill { height: 5px; background: var(--main-color); width: 0%; transition: 0.3s; position: fixed; top: 0; left: 0; z-index: 1000; }
+        .serie-dot { width: 34px; height: 34px; border: 2px solid var(--main-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; transition: all 0.2s; }
+        .serie-dot.checked { background: var(--main-color); color: white; transform: scale(1.1); }
+        #progressFill { height: 6px; background: var(--main-color); width: 0%; transition: 0.4s; position: fixed; top: 0; left: 0; z-index: 1000; box-shadow: 0 0 10px var(--main-color); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--main-color); border-radius: 10px; }
     </style>
 </head>
 <body class="bg-[#0b0f1a] text-slate-100 font-sans min-h-screen">
 
     <div id="progressFill"></div>
 
-    <header class="p-4 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <header class="p-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl italic font-black pink-bold">SISTEMA ZEUS</h1>
+            <h1 class="text-xl italic font-black pink-bold tracking-tighter">SISTEMA ZEUS</h1>
             <div class="flex gap-4 items-center">
-                <span id="studentDisplayHead" class="text-xs font-bold hidden sm:block"></span>
-                <button onclick="document.documentElement.classList.toggle('dark')" class="p-2">🌓</button>
+                <span id="studentDisplayHead" class="text-xs font-bold pink-bold hidden sm:block"></span>
+                <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 bg-slate-800 rounded-lg">🌓</button>
             </div>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
         <aside class="lg:col-span-4 space-y-4 admin-ui">
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800">
-                <input type="text" id="studentName" oninput="updateUI()" placeholder="Nome do Aluno" class="w-full bg-slate-800 p-3 rounded-xl mb-3 outline-none border-b-2 border-pink-hot">
-                <select id="daySelector" class="w-full bg-slate-800 p-3 rounded-xl outline-none font-bold">
+            <div class="bg-slate-900 p-6 rounded-[2rem] border border-slate-800 shadow-2xl">
+                <label class="text-[10px] font-black uppercase opacity-40 mb-2 block tracking-widest">Identificação</label>
+                <input type="text" id="studentName" oninput="updateUI()" placeholder="Nome do Aluno" class="w-full bg-slate-800 p-4 rounded-2xl mb-4 outline-none border-b-2 border-pink-hot font-bold">
+                
+                <label class="text-[10px] font-black uppercase opacity-40 mb-2 block tracking-widest">Dia do Treino</label>
+                <select id="daySelector" class="w-full bg-slate-800 p-4 rounded-2xl outline-none font-bold appearance-none">
                     <option value="segunda">Segunda-feira</option>
                     <option value="terca">Terça-feira</option>
                     <option value="quarta">Quarta-feira</option>
@@ -45,33 +50,33 @@
                 </select>
             </div>
 
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800">
-                <h3 class="text-xs font-black pink-bold uppercase mb-4">Exercícios</h3>
-                <div id="libMenu" class="space-y-2 max-h-64 overflow-y-auto pr-2 custom-scrollbar"></div>
+            <div class="bg-slate-900 p-6 rounded-[2rem] border border-slate-800 shadow-2xl">
+                <h3 class="text-xs font-black pink-bold uppercase mb-4 tracking-widest">Adicionar Exercício</h3>
+                <div id="libMenu" class="space-y-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar"></div>
             </div>
         </aside>
 
         <section class="lg:col-span-8 space-y-6">
             <div class="flex flex-wrap gap-2 admin-ui">
-                <button onclick="exportToHTML()" class="bg-indigo-600 px-4 py-2 rounded-full text-[10px] font-bold">SALVAR HTML</button>
-                <button onclick="document.getElementById('fileInput').click()" class="bg-amber-500 px-4 py-2 rounded-full text-[10px] font-bold">IMPORTAR</button>
-                <button onclick="sendWhatsApp()" class="bg-green-600 px-4 py-2 rounded-full text-[10px] font-bold">ENVIAR WHATSAPP</button>
+                <button onclick="exportToHTML()" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-wider transition-all">Baixar Arquivo 💾</button>
+                <button onclick="document.getElementById('fileInput').click()" class="bg-slate-700 hover:bg-slate-600 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-wider transition-all">Importar 📥</button>
+                <button onclick="sendWhatsApp()" class="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-wider transition-all">Enviar Whats 📱</button>
                 <input type="file" id="fileInput" class="hidden" onchange="importFromHTML(event)">
             </div>
 
             <div id="weekDisplay" class="space-y-6"></div>
 
-            <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800">
-                <h3 class="text-xs font-black pink-bold uppercase mb-2">Observações Gerais</h3>
-                <textarea id="generalNotes" oninput="save()" class="w-full bg-slate-800 p-4 rounded-xl text-sm min-h-[100px] outline-none"></textarea>
+            <div class="bg-slate-900 p-8 rounded-[2rem] border border-slate-800 shadow-2xl">
+                <h3 class="text-xs font-black pink-bold uppercase mb-4 tracking-widest">Observações Gerais</h3>
+                <textarea id="generalNotes" oninput="save()" class="w-full bg-slate-800 p-5 rounded-2xl text-sm min-h-[120px] outline-none border border-slate-700 focus:border-pink-hot transition-all" placeholder="Ex: Fazer 20min de cardio após o treino..."></textarea>
             </div>
         </section>
     </main>
 
     <script>
-        // Funções de Codificação Segura (UTF-8)
-        const safeBtoA = (str) => btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
-        const safeAtoB = (str) => decodeURIComponent(Array.prototype.map.call(atob(str), (c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        // --- MOTOR DE CODIFICAÇÃO SEGURO (UTF-8 para Base64) ---
+        const safeBtoA = (str) => btoa(unescape(encodeURIComponent(str)));
+        const safeAtoB = (str) => decodeURIComponent(escape(atob(str)));
 
         let workoutData = { 
             student: "", generalNotes: "", profPhone: "5500000000000",
@@ -86,7 +91,7 @@
                 try {
                     workoutData = JSON.parse(safeAtoB(alunoData));
                     document.body.classList.add('is-student-mode');
-                } catch(e) { console.error("Erro ao carregar link."); loadLocal(); }
+                } catch(e) { console.error("Erro no link."); loadLocal(); }
             } else { 
                 loadLocal();
             }
@@ -95,9 +100,9 @@
         }
 
         function loadLocal() {
-            const s = localStorage.getItem('zeus_data');
+            const s = localStorage.getItem('zeus_data_v2');
             if(s) {
-                try { workoutData = JSON.parse(s); } catch(e) { console.error("Cache corrompido."); }
+                try { workoutData = JSON.parse(s); } catch(e) { console.warn("Resetando dados."); }
             }
         }
 
@@ -105,7 +110,7 @@
             if(!document.body.classList.contains('is-student-mode')) {
                 workoutData.student = document.getElementById('studentName').value;
                 workoutData.generalNotes = document.getElementById('generalNotes').value;
-                localStorage.setItem('zeus_data', JSON.stringify(workoutData));
+                localStorage.setItem('zeus_data_v2', JSON.stringify(workoutData));
             }
         }
 
@@ -118,23 +123,28 @@
 
             Object.keys(workoutData.days).forEach(day => {
                 if (workoutData.days[day].length === 0) return;
-                let html = `<div class="bg-slate-900 p-5 rounded-3xl border border-slate-800">
-                    <h2 class="pink-bold uppercase italic mb-4">${day}</h2>`;
+                let html = `<div class="bg-slate-900 p-6 rounded-[2rem] border border-slate-800 shadow-xl">
+                    <h2 class="pink-bold text-xl uppercase italic font-black mb-6 border-b border-slate-800 pb-2">${day}</h2>`;
                 
                 workoutData.days[day].forEach((ex, i) => {
                     let seriesNum = parseInt(ex.r) || 0;
                     let dots = "";
                     if(isStudent) {
-                        for(let j=1; j<=seriesNum; j++) dots += `<div class="serie-dot" onclick="this.classList.toggle('checked'); updateProgress();">${j}</div>`;
+                        for(let j=1; j<=seriesNum; j++) {
+                            dots += `<div class="serie-dot" onclick="this.classList.toggle('checked'); updateProgress();">${j}</div>`;
+                        }
                     }
 
-                    html += `<div class="mb-4 p-4 bg-slate-800/50 rounded-2xl relative">
-                        <div class="flex justify-between">
-                            <span class="font-bold text-sm uppercase">${ex.n}</span>
-                            <button onclick="removeEx('${day}', ${i})" class="admin-ui text-red-500 font-bold">×</button>
+                    html += `<div class="mb-4 p-5 bg-slate-800/40 rounded-2xl border border-slate-700/50 hover:border-pink-hot/30 transition-all">
+                        <div class="flex justify-between items-center">
+                            <span class="font-black text-sm uppercase tracking-tight">${ex.n}</span>
+                            <button onclick="removeEx('${day}', ${i})" class="admin-ui text-red-500 hover:scale-125 transition">✕</button>
                         </div>
-                        <div class="text-[10px] mt-2 opacity-70">Séries: ${ex.r} | Carga: ${ex.w}</div>
-                        <div class="flex gap-2 mt-3">${dots}</div>
+                        <div class="flex gap-4 mt-2 text-[10px] font-bold uppercase opacity-60">
+                            <span>Séries: <b class="text-white">${ex.r}</b></span>
+                            <span>Carga: <b class="text-white">${ex.w}</b></span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4">${dots}</div>
                     </div>`;
                 });
                 container.innerHTML += html + `</div>`;
@@ -142,15 +152,15 @@
         }
 
         function renderLib() {
-            const lib = ["Supino Reto", "Puxada Frente", "Leg Press", "Agachamento", "Elevação Lateral", "Rosca Direta", "Tríceps Corda"];
+            const lib = ["Supino Reto Barra", "Puxada Aberta", "Leg Press 45º", "Agachamento Hack", "Elevação Lateral", "Rosca Direta W", "Tríceps Pulley"];
             const container = document.getElementById('libMenu');
             lib.forEach(ex => {
                 const div = document.createElement('div');
-                div.className = "p-2 bg-slate-800 rounded-lg text-xs cursor-pointer hover:bg-pink-hot transition";
+                div.className = "p-3 bg-slate-800 hover:bg-pink-hot hover:translate-x-2 rounded-xl text-xs font-bold cursor-pointer transition-all uppercase";
                 div.innerText = ex;
                 div.onclick = () => {
                     const day = document.getElementById('daySelector').value;
-                    workoutData.days[day].push({ n: ex, r: "3x12", w: "---" });
+                    workoutData.days[day].push({ n: ex, r: "3x12", w: "10kg" });
                     save(); render();
                 };
                 container.appendChild(div);
@@ -164,25 +174,60 @@
         function updateProgress() {
             const dots = document.querySelectorAll('.serie-dot');
             const checked = document.querySelectorAll('.serie-dot.checked');
+            if(dots.length === 0) return;
             const pct = (checked.length / dots.length) * 100;
             document.getElementById('progressFill').style.width = pct + '%';
         }
 
+        // --- FUNÇÃO DE EXPORTAÇÃO CORRIGIDA ---
         function exportToHTML() {
             const snapshot = safeBtoA(JSON.stringify(workoutData));
+            const studentClean = (workoutData.student || 'ALUNO').replace(/\s+/g, '_');
+            
             const htmlContent = `<!DOCTYPE html>
             <html lang="pt-BR" class="dark">
-            <head><meta charset="utf-8"><script src="https://cdn.tailwindcss.com"></script></head>
-            <body class="bg-[#0b0f1a] text-white p-8">
-                <h1 style="color:#FF1493">TREINO ZEUS: ${workoutData.student}</h1>
-                <div class="mt-4">${document.getElementById('weekDisplay').innerHTML}</div>
-                <script>function updateProgress(){}</script>
-            </body></html>`;
+            <head>
+                <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+                <title>TREINO ZEUS - ${workoutData.student}</title>
+                <script src="https://cdn.tailwindcss.com"></script>
+                <style>
+                    :root { --main-color: #FF1493; }
+                    body { background: #0b0f1a; color: white; padding: 20px; font-family: sans-serif; }
+                    .pink-bold { color: #FF1493 !important; font-weight: 900; }
+                    .serie-dot { width: 34px; height: 34px; border: 2px solid #FF1493; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin: 4px; font-weight: bold; cursor: pointer; }
+                    .serie-dot.checked { background: #FF1493; color: white; }
+                    #progress { height: 6px; background: #FF1493; width: 0%; position: fixed; top:0; left:0; transition: 0.4s; }
+                    .admin-ui { display: none !important; }
+                </style>
+            </head>
+            <body>
+                <div id="progress"></div>
+                <div class="max-w-2xl mx-auto">
+                    <h1 class="text-3xl font-black pink-bold italic mb-2">ZEUS TREINO</h1>
+                    <p class="opacity-50 text-xs uppercase mb-8">Aluno: ${workoutData.student}</p>
+                    <div id="main">${document.getElementById('weekDisplay').innerHTML}</div>
+                    <div class="mt-8 p-6 bg-slate-900 rounded-3xl border border-slate-800">
+                        <h3 class="pink-bold text-[10px] uppercase mb-2">Dicas do Professor</h3>
+                        <p class="text-sm opacity-80">${workoutData.generalNotes || 'Foco no objetivo!'}</p>
+                    </div>
+                </div>
+                <script>
+                    function updateProgress() {
+                        const d = document.querySelectorAll('.serie-dot');
+                        const c = document.querySelectorAll('.serie-dot.checked');
+                        document.getElementById('progress').style.width = ((c.length/d.length)*100) + '%';
+                    }
+                    // Adiciona função de clique nos pontos para o modo offline
+                    document.querySelectorAll('.serie-dot').forEach(dot => {
+                        dot.onclick = function() { this.classList.toggle('checked'); updateProgress(); };
+                    });
+                </script>
+                </body></html>`;
             
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `TREINO_${workoutData.student || 'ALUNO'}.html`;
+            a.download = `TREINO_${studentClean}.html`;
             a.click();
         }
 
@@ -191,16 +236,19 @@
             reader.onload = (event) => {
                 const match = event.target.result.match(/DATA_SNAPSHOT: (.*) -->/);
                 if (match) {
-                    workoutData = JSON.parse(safeAtoB(match[1]));
-                    save(); render(); alert("Importado!");
-                }
+                    try {
+                        workoutData = JSON.parse(safeAtoB(match[1].trim()));
+                        save(); render();
+                        alert("✅ Treino carregado com sucesso!");
+                    } catch(err) { alert("❌ Arquivo corrompido."); }
+                } else { alert("❌ Arquivo Zeus inválido."); }
             };
             reader.readAsText(e.target.files[0]);
         }
 
         function sendWhatsApp() {
             const link = window.location.href.split('?')[0] + '?aluno=' + safeBtoA(JSON.stringify(workoutData));
-            const msg = encodeURIComponent(`Olá ${workoutData.student}, seu treino está pronto: ${link}`);
+            const msg = encodeURIComponent(`🏋️‍♂️ *TREINO ZEUS* 🌓\n\nOlá ${workoutData.student}, seu novo treino está pronto!\n\nAcesse agora:\n${link}`);
             window.open(`https://api.whatsapp.com/send?text=${msg}`);
         }
 
