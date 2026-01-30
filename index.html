@@ -326,4 +326,13 @@
         function sendWhatsApp() {
             const alunoParam = btoa(unescape(encodeURIComponent(JSON.stringify(workoutData))));
             const url = window.location.href.split('?')[0] + '?aluno=' + alunoParam;
-            const msg = encodeURIComp
+            const msg = encodeURIComponent(`Olá ${workoutData.student}, seu novo treino Zeus está pronto!\n\nAcesse aqui: ${url}`);
+            window.open(`https://api.whatsapp.com/send?phone=${workoutData.profPhone}&text=${msg}`, '_blank');
+        }
+
+        function clearAll() { if(confirm("Apagar tudo?")) { localStorage.clear(); location.reload(); } }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
